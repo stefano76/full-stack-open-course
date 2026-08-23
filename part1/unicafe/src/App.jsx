@@ -12,24 +12,29 @@ const Button = ({ text, onClick }) => {
 	);
 };
 
-// Statistics component already created
-const Statistics = ({ text, value }) => {
+const Feedbacks = ({ text, value }) => {
 	// prettier-ignore
 	return <li>{text}: {value}</li>
+};
+
+const Statitics = ({ feedbacks }) => {
+	return (
+		<ul>
+			<Feedbacks text="Good" value={feedbacks.good} />
+			<Feedbacks text="Neutral" value={feedbacks.neutral} />
+			<Feedbacks text="Bad" value={feedbacks.bad} />
+			<Total feedbacks={feedbacks} />
+			<Average feedbacks={feedbacks} />
+			<Positive feedbacks={feedbacks} />
+		</ul>
+	);
 };
 
 const Footer = ({ feedbacks }) => {
 	return (
 		<>
 			<h2>Statistics</h2>
-			<ul>
-				<Statistics text="Good" value={feedbacks.good} />
-				<Statistics text="Neutral" value={feedbacks.neutral} />
-				<Statistics text="Bad" value={feedbacks.bad} />
-				<Total feedbacks={feedbacks} />
-				<Average feedbacks={feedbacks} />
-				<Positive feedbacks={feedbacks} />
-			</ul>
+			<Statitics feedbacks={feedbacks} />
 		</>
 	);
 };
