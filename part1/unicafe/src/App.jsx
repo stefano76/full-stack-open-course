@@ -17,49 +17,46 @@ const Feedbacks = ({ text, value }) => {
 	return <li>{text}: {value}</li>
 };
 
-const Statitics = ({ feedbacks }) => {
-	return (
-		<ul>
-			<Feedbacks text="Good" value={feedbacks.good} />
-			<Feedbacks text="Neutral" value={feedbacks.neutral} />
-			<Feedbacks text="Bad" value={feedbacks.bad} />
-			<Total feedbacks={feedbacks} />
-			<Average feedbacks={feedbacks} />
-			<Positive feedbacks={feedbacks} />
-		</ul>
-	);
-};
-
-const Footer = ({ feedbacks }) => {
-	return (
-		<>
-			<h2>Statistics</h2>
-			{calcTotal(feedbacks) > 0 ? <Statitics feedbacks={feedbacks} /> : ""}
-		</>
-	);
-};
-
 const calcTotal = (feedbacks) => {
 	return feedbacks.good + feedbacks.neutral + feedbacks.bad;
 };
 
-const Total = ({ feedbacks }) => {
-	return <li>All: {calcTotal(feedbacks)}</li>;
+const Total = ({ text, value }) => {
+	return (
+		<li>
+			{text}: {calcTotal(value)}
+		</li>
+	);
 };
 
-const Average = ({ feedbacks }) => {
+const Average = ({ text, value }) => {
 	const values = { good: 1, neutral: 0, bad: -1 };
-	const good = feedbacks.good * values.good;
-	const neutral = feedbacks.neutral * values.neutral;
-	const bad = feedbacks.bad * values.bad;
+	const good = value.good * values.good;
+	const neutral = value.neutral * values.neutral;
+	const bad = value.bad * values.bad;
 
-	const average = calcTotal(feedbacks) > 0 ? (good + neutral + bad) / calcTotal(feedbacks) : 0;
-	return <li>Average: {average}</li>;
+	const average = calcTotal(value) > 0 ? (good + neutral + bad) / calcTotal(value) : 0;
+	return (
+		<li>
+			{text}: {average}
+		</li>
+	);
 };
 
-const Positive = ({ feedbacks }) => {
-	const positive = calcTotal(feedbacks) > 0 ? (feedbacks.good / calcTotal(feedbacks)) * 100 : 0;
-	return <li>Positive: {positive} %</li>;
+const Positive = ({ text, value }) => {
+	const positive = calcTotal(value) > 0 ? (value.good / calcTotal(value)) * 100 : 0;
+	return (
+		<li>
+			{text}: {positive} %
+		</li>
+	);
+};
+
+const StatisticLine = ({ text, value }) => {
+	if (text === "Good" || text === "Neutral" || text === "Bad") return <Feedbacks text={text} value={value} />;
+	if (text === "All") return <Total text={text} value={value} />;
+	if (text === "Average") return <Average text={text} value={value} />;
+	if (text === "Positive") return <Positive text={text} value={value} />;
 };
 
 const App = () => {
@@ -86,7 +83,19 @@ const App = () => {
 				<Button text="Neutral" onClick={handleNeutral} />
 				<Button text="Bad" onClick={handleBad} />
 			</div>
-			<Footer feedbacks={feedbacks} />
+			<h2>Statistics</h2>
+			{calcTotal(feedbacks) === 0 ? (
+				""
+			) : (
+				<ul>
+					<StatisticLine text="Good" value={feedbacks.good} />
+					<StatisticLine text="Neutral" value={feedbacks.neutral} />
+					<StatisticLine text="Bad" value={feedbacks.bad} />
+					<StatisticLine text="All" value={feedbacks} />
+					<StatisticLine text="Average" value={feedbacks} />
+					<StatisticLine text="Positive" value={feedbacks} />
+				</ul>
+			)}
 		</div>
 	);
 };
