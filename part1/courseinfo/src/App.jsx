@@ -1,24 +1,26 @@
-function Header({ course }) {
-  return <h1>{course.title}</h1>;
-}
+const Part = ({ course, part }) => {
+  return (
+    <p>
+      {course.parts[part].title} {course.parts[part].exercises}
+    </p>
+  );
+};
 
-function Content({ course }) {
+const Header = ({ course }) => {
+  return <h1>{course.title}</h1>;
+};
+
+const Content = ({ course }) => {
   return (
     <>
-      <p>
-        {course.parts[0].title} {course.parts[0].exercises}
-      </p>
-      <p>
-        {course.parts[1].title} {course.parts[1].exercises}
-      </p>
-      <p>
-        {course.parts[2].title} {course.parts[2].exercises}
-      </p>
+      <Part course={course} part={0} />
+      <Part course={course} part={1} />
+      <Part course={course} part={2} />
     </>
   );
-}
+};
 
-function Total({ course }) {
+const Total = ({ course }) => {
   return (
     <p>
       Number of exercises{" "}
@@ -27,7 +29,7 @@ function Total({ course }) {
         course.parts[2].exercises}
     </p>
   );
-}
+};
 
 const App = () => {
   const course = {
@@ -38,8 +40,6 @@ const App = () => {
       { title: "State of a component", exercises: 14 },
     ],
   };
-
-  console.log(course.title);
 
   return (
     <div>
