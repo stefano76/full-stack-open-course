@@ -13,10 +13,20 @@ const Button = ({ text, onClick }) => {
 };
 
 const Statistics = ({ text, number }) => {
+	// prettier-ignore
+	return <li>{text}: {number}</li>
+};
+
+const Footer = ({ feedbacks }) => {
 	return (
-		<li>
-			{text}: {number}
-		</li>
+		<>
+			<h2>Statistics</h2>
+			<ul>
+				<Statistics text="Good" number={feedbacks.good} />
+				<Statistics text="Neutral" number={feedbacks.neutral} />
+				<Statistics text="Bad" number={feedbacks.bad} />
+			</ul>
+		</>
 	);
 };
 
@@ -36,8 +46,6 @@ const App = () => {
 		bad: bad
 	};
 
-	// console.log(feedbacks);
-
 	return (
 		<div>
 			<Header />
@@ -46,12 +54,7 @@ const App = () => {
 				<Button text="Neutral" onClick={handleNeutral} />
 				<Button text="Bad" onClick={handleBad} />
 			</div>
-			<h2>Statistics</h2>
-			<ul>
-				<Statistics text="Good" number={feedbacks.good} />
-				<Statistics text="Neutral" number={feedbacks.neutral} />
-				<Statistics text="Bad" number={feedbacks.bad} />
-			</ul>
+			<Footer feedbacks={feedbacks} />
 		</div>
 	);
 };
