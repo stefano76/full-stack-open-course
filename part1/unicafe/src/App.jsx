@@ -12,6 +12,7 @@ const Button = ({ text, onClick }) => {
 	);
 };
 
+// Statistics component already created
 const Statistics = ({ text, value }) => {
 	// prettier-ignore
 	return <li>{text}: {value}</li>
