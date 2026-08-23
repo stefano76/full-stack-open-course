@@ -34,7 +34,7 @@ const Footer = ({ feedbacks }) => {
 	return (
 		<>
 			<h2>Statistics</h2>
-			<Statitics feedbacks={feedbacks} />
+			{calcTotal(feedbacks) > 0 ? <Statitics feedbacks={feedbacks} /> : ""}
 		</>
 	);
 };
