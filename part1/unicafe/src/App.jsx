@@ -25,9 +25,33 @@ const Footer = ({ feedbacks }) => {
 				<Statistics text="Good" number={feedbacks.good} />
 				<Statistics text="Neutral" number={feedbacks.neutral} />
 				<Statistics text="Bad" number={feedbacks.bad} />
+				<Total feedbacks={feedbacks} />
+				<Average feedbacks={feedbacks} />
+				<Positive feedbacks={feedbacks} />
 			</ul>
 		</>
 	);
+};
+
+const calcTotal = ({ feedbacks }) => {
+	return feedbacks.good + feedbacks.neutral + feedbacks.bad;
+};
+
+const Total = ({ feedbacks }) => {
+	return <li>All: {calcTotal({ feedbacks })}</li>;
+};
+
+const Average = ({ feedbacks }) => {
+	const values = { good: 1, neutral: 0, bad: -1 };
+	const good = feedbacks.good * values.good;
+	const neutral = feedbacks.neutral * values.neutral;
+	const bad = feedbacks.bad * values.bad;
+
+	return <li>Average: {(good + neutral + bad) / calcTotal({ feedbacks })}</li>;
+};
+
+const Positive = ({ feedbacks }) => {
+	return <li>Positive: {(feedbacks.good / calcTotal({ feedbacks })) * 100} %</li>;
 };
 
 const App = () => {
