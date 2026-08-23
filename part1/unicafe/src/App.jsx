@@ -12,9 +12,9 @@ const Button = ({ text, onClick }) => {
 	);
 };
 
-const Statistics = ({ text, number }) => {
+const Statistics = ({ text, value }) => {
 	// prettier-ignore
-	return <li>{text}: {number}</li>
+	return <li>{text}: {value}</li>
 };
 
 const Footer = ({ feedbacks }) => {
@@ -22,9 +22,9 @@ const Footer = ({ feedbacks }) => {
 		<>
 			<h2>Statistics</h2>
 			<ul>
-				<Statistics text="Good" number={feedbacks.good} />
-				<Statistics text="Neutral" number={feedbacks.neutral} />
-				<Statistics text="Bad" number={feedbacks.bad} />
+				<Statistics text="Good" value={feedbacks.good} />
+				<Statistics text="Neutral" value={feedbacks.neutral} />
+				<Statistics text="Bad" value={feedbacks.bad} />
 				<Total feedbacks={feedbacks} />
 				<Average feedbacks={feedbacks} />
 				<Positive feedbacks={feedbacks} />
@@ -33,12 +33,12 @@ const Footer = ({ feedbacks }) => {
 	);
 };
 
-const calcTotal = ({ feedbacks }) => {
+const calcTotal = (feedbacks) => {
 	return feedbacks.good + feedbacks.neutral + feedbacks.bad;
 };
 
 const Total = ({ feedbacks }) => {
-	return <li>All: {calcTotal({ feedbacks })}</li>;
+	return <li>All: {calcTotal(feedbacks)}</li>;
 };
 
 const Average = ({ feedbacks }) => {
@@ -47,11 +47,13 @@ const Average = ({ feedbacks }) => {
 	const neutral = feedbacks.neutral * values.neutral;
 	const bad = feedbacks.bad * values.bad;
 
-	return <li>Average: {(good + neutral + bad) / calcTotal({ feedbacks })}</li>;
+	const average = calcTotal(feedbacks) > 0 ? (good + neutral + bad) / calcTotal(feedbacks) : 0;
+	return <li>Average: {average}</li>;
 };
 
 const Positive = ({ feedbacks }) => {
-	return <li>Positive: {(feedbacks.good / calcTotal({ feedbacks })) * 100} %</li>;
+	const positive = calcTotal(feedbacks) > 0 ? (feedbacks.good / calcTotal(feedbacks)) * 100 : 0;
+	return <li>Positive: {positive} %</li>;
 };
 
 const App = () => {
