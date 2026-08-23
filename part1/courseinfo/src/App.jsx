@@ -1,7 +1,7 @@
 const Part = ({ course, part }) => {
   return (
     <p>
-      {course.parts[part].title} {course.parts[part].exercises}
+      {course.parts[part].name} {course.parts[part].exercises}
     </p>
   );
 };
@@ -35,9 +35,9 @@ const App = () => {
   const course = {
     title: "Half Stack application development",
     parts: [
-      { title: "Fundamentals of React", exercises: 10 },
-      { title: "Using props to pass data", exercises: 7 },
-      { title: "State of a component", exercises: 14 },
+      { name: "Fundamentals of React", exercises: 10 },
+      { name: "Using props to pass data", exercises: 7 },
+      { name: "State of a component", exercises: 14 },
     ],
   };
 
