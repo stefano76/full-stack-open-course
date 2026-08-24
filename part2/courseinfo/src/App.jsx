@@ -23,7 +23,6 @@ const Content = ({course}) => {
 const Total = ({course}) => {
     const total = course.parts.reduce((acc, cur) => acc + cur.exercises, 0)
 
-    // console.log(total);
     return (
         <p style={{fontWeight: 'bold'}}>Total of {total} exercises</p>
     );
