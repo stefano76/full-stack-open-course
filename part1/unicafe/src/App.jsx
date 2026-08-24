@@ -13,8 +13,12 @@ const Button = ({ text, onClick }) => {
 };
 
 const Feedbacks = ({ text, value }) => {
-	// prettier-ignore
-	return <li>{text}: {value}</li>
+	return (
+		<>
+			<td>{text}</td>
+			<td>{value}</td>
+		</>
+	);
 };
 
 const calcTotal = (feedbacks) => {
@@ -23,9 +27,10 @@ const calcTotal = (feedbacks) => {
 
 const Total = ({ text, value }) => {
 	return (
-		<li>
-			{text}: {calcTotal(value)}
-		</li>
+		<>
+			<td>{text}</td>
+			<td>{calcTotal(value)}</td>
+		</>
 	);
 };
 
@@ -37,18 +42,20 @@ const Average = ({ text, value }) => {
 
 	const average = calcTotal(value) > 0 ? (good + neutral + bad) / calcTotal(value) : 0;
 	return (
-		<li>
-			{text}: {average}
-		</li>
+		<>
+			<td>{text}</td>
+			<td>{average}</td>
+		</>
 	);
 };
 
 const Positive = ({ text, value }) => {
 	const positive = calcTotal(value) > 0 ? (value.good / calcTotal(value)) * 100 : 0;
 	return (
-		<li>
-			{text}: {positive} %
-		</li>
+		<>
+			<td>{text}</td>
+			<td>{positive} %</td>
+		</>
 	);
 };
 
@@ -87,14 +94,23 @@ const App = () => {
 			{calcTotal(feedbacks) === 0 ? (
 				""
 			) : (
-				<ul>
-					<StatisticLine text="Good" value={feedbacks.good} />
-					<StatisticLine text="Neutral" value={feedbacks.neutral} />
-					<StatisticLine text="Bad" value={feedbacks.bad} />
-					<StatisticLine text="All" value={feedbacks} />
-					<StatisticLine text="Average" value={feedbacks} />
-					<StatisticLine text="Positive" value={feedbacks} />
-				</ul>
+				// prettier-ignore
+				<table>
+					<thead>
+						<tr>
+							<th style={{ minWidth: '5rem' }}></th>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr><StatisticLine text="Good" value={feedbacks.good} /></tr>					
+						<tr><StatisticLine text="Bad" value={feedbacks.bad} /></tr>
+						<tr><StatisticLine text="All" value={feedbacks} /></tr>
+						<tr><StatisticLine text="Average" value={feedbacks} /></tr>
+						<tr><StatisticLine text="Neutral" value={feedbacks.neutral} /></tr>
+						<tr><StatisticLine text="Positive" value={feedbacks} /></tr>
+					</tbody>
+				</table>
 			)}
 		</div>
 	);
