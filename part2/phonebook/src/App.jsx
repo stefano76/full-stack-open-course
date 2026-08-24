@@ -1,5 +1,11 @@
 import {useState} from 'react'
 
+const Persons = ({person}) => {
+    return (
+        <li>{person.name}: {person.number}</li>
+    )
+}
+
 const App = () => {
     const [persons, setPersons] = useState([
         {name: 'Arto Hellas', number: '040-123456', id: 1},
@@ -42,12 +48,6 @@ const App = () => {
         )
     }
 
-    const Number = ({person}) => {
-        return (
-            <li>{person.name}: {person.number}</li>
-        )
-    }
-
     return (
         <div>
             <h2>Phonebook</h2>
@@ -66,7 +66,7 @@ const App = () => {
             <h2>Numbers</h2>
             <ul>
                 {filteredPersons.map((person) => (
-                    <Number key={person.id} person={person}/>
+                    <Persons key={person.id} person={person}/>
                 ))}
             </ul>
         </div>
