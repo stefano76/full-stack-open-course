@@ -32,13 +32,18 @@
     },
     {
       "name": "Han Solo",
-      "number": "36263575",
+      "number": "55435",
       "id": "pzFwswBOT7M"
     },
     {
       "name": "Luke Skywalker",
       "number": "637568357",
       "id": "MXAwnDTjhrc"
+    },
+    {
+      "name": "John Doe",
+      "number": "6357475",
+      "id": "Kj331DYZtNA"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"
