@@ -1,14 +1,21 @@
-const Person = ({person}) => {
+const Person = ({person, removeName}) => {
     return (
-        <li>{person.name}: {person.number}</li>
+        <li style={{marginBottom: '.5rem', listStyle: 'none'}}>
+            {person.name}: {person.number}
+            <button style={{marginLeft: '1rem'}} onClick={removeName}>Delete</button>
+        </li>
     )
 }
 
-const Persons = ({ persons }) => {
+const Persons = ({ persons, removeName }) => {
     return (
         <ul>
             {persons.map((person) => (
-                <Person key={ person.id ?? person.name.replaceAll(" ", "") } person={person}/>
+                <Person
+                    key={ person.id ?? person.name.replaceAll(" ", "") }
+                    person={person}
+                    removeName={() => removeName(person.id)}
+                />
             ))}
         </ul>
     )

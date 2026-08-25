@@ -27,13 +27,24 @@ const App = () => {
         } else {
             personService
                 .create(newRecord)
-                .then(returnedPersons => {
-                    setPersons(persons.concat(returnedPersons))
+                .then(returnedPerson => {
+                    setPersons(persons.concat(returnedPerson))
                 })
         }
 
         setNewName('')
         setNewNumber('')
+    }
+
+    const removeName = (id) => {
+        const personName = persons.find(person => person.id === id).name
+        if ( window.confirm(`Are you sure you want to delete ${personName}?`) ) {
+            personService
+                .destroy(id)
+                .then(returnedPerson => {
+                    setPersons(persons.filter(person => person.id !== returnedPerson.id))
+                })
+        }
     }
 
     const handleNewName = (event) => {
@@ -65,7 +76,7 @@ const App = () => {
             <PersonForm {...{ addName, newName, handleNewName, newNumber, handleNewNumber }} />
 
             <h2>Numbers</h2>
-            <Persons persons={personsToShow} />
+            <Persons persons={personsToShow} removeName={removeName} />
         </div>
     )
 }
