@@ -18,16 +18,18 @@ const App = () => {
                 setPersons(response.data)
             })
     }, [])
-    console.log(persons)
-    /*const addName = (event) => {
-        event.preventDefault()
 
-        console.log(newNumber)
+    const addName = (event) => {
+        event.preventDefault()
 
         if (persons.find(person => person.name === newName)) {
             alert(`${newName} is already in the phonebook!`)
         } else {
-            setPersons([...persons, {name: newName, number: newNumber}])
+            axios
+                .post('http://localhost:3001/persons', {name: newName, number: newNumber})
+                .then(response => {
+                    setPersons([...persons, response.data])
+                })
         }
 
         setNewName('')
@@ -65,7 +67,7 @@ const App = () => {
             <h2>Numbers</h2>
             <Persons persons={personsToShow} />
         </div>
-    )*/
+    )
 }
 
 export default App
