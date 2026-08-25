@@ -1,0 +1,14 @@
+import axios from 'axios'
+const baseUrl = 'https://studies.cs.helsinki.fi/restcountries/api'
+
+const getAll = () => {
+    const request = axios.get(`${baseUrl}/all`)
+    return request.then(response => response.data)
+}
+
+const getSingle = (name) => {
+    const request = axios.get(`${baseUrl}/name/${encodeURIComponent(name)}`)
+    return request.then(response => response)
+}
+
+export default { getAll, getSingle }
