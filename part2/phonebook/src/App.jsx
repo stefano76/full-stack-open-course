@@ -1,15 +1,25 @@
-import {useState} from 'react'
+import { useState, useEffect } from 'react'
 import Persons from "./components/Persons"
 import Filter from "./components/Filter"
 import PersonForm from "./components/PersonForm"
+import axios from "axios";
 
-const App = (props) => {
-    const [persons, setPersons] = useState(props.persons)
+const App = () => {
+    const [persons, setPersons] = useState([])
     const [newName, setNewName] = useState('')
     const [newNumber, setNewNumber] = useState('')
     const [filteredPersons, setFilteredPersons] = useState([])
 
-    const addName = (event) => {
+    useEffect(() => {
+        axios
+            .get('http://localhost:3001/persons')
+            .then(response => {
+                3
+                setPersons(response.data)
+            })
+    }, [])
+    console.log(persons)
+    /*const addName = (event) => {
         event.preventDefault()
 
         console.log(newNumber)
@@ -42,6 +52,8 @@ const App = (props) => {
         )
     }
 
+    const personsToShow = filteredPersons.length > 0 ? filteredPersons : persons
+
     return (
         <div>
             <h2>Phonebook</h2>
@@ -51,10 +63,9 @@ const App = (props) => {
             <PersonForm {...{ addName, newName, handleNewName, newNumber, handleNewNumber }} />
 
             <h2>Numbers</h2>
-            <Persons persons={filteredPersons.length > 0 ? filteredPersons : persons} />
-
+            <Persons persons={personsToShow} />
         </div>
-    )
+    )*/
 }
 
 export default App
