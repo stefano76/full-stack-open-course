@@ -29,6 +29,29 @@
       "name": "Rocky Balboa",
       "number": "35146735",
       "id": "fXRUM4CCM2U"
+    },
+    {
+      "name": "Han Solo",
+      "number": "36263575",
+      "id": "pzFwswBOT7M"
+    },
+    {
+      "name": "Luke Skywalker",
+      "number": "637568357",
+      "id": "MXAwnDTjhrc"
+    },
+    {
+      "id": "FXSWjCE4fj0"
+    },
+    {
+      "name": false,
+      "number": "55435",
+      "id": "-CavDfJ3MQc"
+    },
+    {
+      "name": "John Doe",
+      "number": "473737",
+      "id": "BERhZnAwUjA"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"
