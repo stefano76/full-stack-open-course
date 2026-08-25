@@ -3,12 +3,15 @@ import Persons from "./components/Persons"
 import Filter from "./components/Filter"
 import PersonForm from "./components/PersonForm"
 import personService from "./services/persons"
+import Notification from "./components/Notification"
 
 const App = () => {
     const [persons, setPersons] = useState([])
     const [newName, setNewName] = useState('')
     const [newNumber, setNewNumber] = useState('')
     const [filteredPersons, setFilteredPersons] = useState([])
+    const [notification, setNotification] = useState(null)
+    const [error, setError] = useState(false)
 
     useEffect(() => {
         personService
@@ -29,6 +32,8 @@ const App = () => {
                 personService
                     .update(existentPerson.id, changedPerson)
                     .then(returnedPerson => {
+                        setNotification(`${returnedPerson.name}'s number has been updated successfully`)
+                        setTimeout(() => setNotification(null), 5000)
                         setPersons(persons.map(person => person.id === existentPerson.id ? returnedPerson : person))
                     })
             }
@@ -36,6 +41,8 @@ const App = () => {
             personService
                 .create(newRecord)
                 .then(returnedPerson => {
+                    setNotification(`${returnedPerson.name} has been added`)
+                    setTimeout(() => setNotification(null), 5000)
                     setPersons(persons.concat(returnedPerson))
                 })
         }
@@ -50,6 +57,8 @@ const App = () => {
             personService
                 .destroy(id)
                 .then(returnedPerson => {
+                    setNotification(`${returnedPerson.name} has been removed from server`)
+                    setTimeout(() => setNotification(null),5000)
                     setPersons(persons.filter(person => person.id !== returnedPerson.id))
                 })
         }
@@ -78,6 +87,8 @@ const App = () => {
     return (
         <div>
             <h2>Phonebook</h2>
+            <Notification message={notification} error={error} />
+
             <Filter handleSearch={handleSearch} />
 
             <h2>Add a new person</h2>
