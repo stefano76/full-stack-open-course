@@ -37,13 +37,8 @@
     },
     {
       "name": "Luke Skywalker",
-      "number": "637568357",
-      "id": "MXAwnDTjhrc"
-    },
-    {
-      "name": "John Doe",
-      "number": "652655",
-      "id": "Kj331DYZtNA"
+      "number": "4643955",
+      "id": "IYysrVODx2g"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"
