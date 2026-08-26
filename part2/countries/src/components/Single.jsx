@@ -1,11 +1,28 @@
+import {useEffect, useState} from "react";
 import countryService from '../services/countries'
+import weatherService from '../services/weather'
+import Weather from './Weather'
 
 const Single = ({ country }) => {
+    const [weather, setWeather] = useState([]);
+
     countryService
         .getSingle(country.name.common)
         .then(response => {
             console.log(response)
         })
+
+    useEffect(() => {
+        weatherService
+            .getWeather(country)
+            .then(response => {
+                setWeather(response[0]) // Weather object inside data
+            })
+            .catch(error => {
+                console.log(error)
+                setWeather([])
+            })
+    }, [country])
 
     return (
         <div>
@@ -30,6 +47,8 @@ const Single = ({ country }) => {
                     style={{ width: '200px', height: 'auto' }}
                 />
             </div>
+
+            { weather.length > 0 && <Weather capital={country.capital[0]} weather={weather} /> }
         </div>
     )
 }
