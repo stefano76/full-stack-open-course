@@ -1,18 +1,19 @@
 import axios from "axios";
 const apiKey = import.meta.env.VITE_OPENWEATHER_API_KEY
 const baseUrl = 'https://api.openweathermap.org'
-const urlWeather = `${baseUrl}/data/4.0/onecall/current?units=metric&`;
+const urlWeather = `${baseUrl}/data/2.5/weather?`;
 const urlIcon = `${baseUrl}/payload/api/media/file/`;
 
 /*
 * EXAMPLES
-* Weather: https://openweathermap.org/payload/api/media/file/10d@2x.png
-* Icon: https://api.openweathermap.org/data/4.0/onecall/current?lat={lat}&lon={lon}&appid={API key}
+* Weather: https://api.openweathermap.org/data/2.5/weather?q=London,GB&appid={API key}
+* Icon: https://openweathermap.org/payload/api/media/file/10d@2x.png
 */
 
 const getWeather = (country) => {
-    const [lat, lon] = country.capitalInfo.latlng
-    const request = axios.get(`${urlWeather}lat=${lat}&lon=${lon}&appid=${apiKey}`);
+    const capital = country.capital[0]
+    const code = country.cca2
+    const request = axios.get(`${urlWeather}q=${capital},${code}&units=metric&appid=${apiKey}`);
     return request.then(response => response.data);
 }
 

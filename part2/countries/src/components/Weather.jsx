@@ -1,20 +1,20 @@
-import weatherService from '../services/weather'
-
 const Weather = ({ capital, weather }) => {
-    const icon = weatherService.getIcon(weather.weather.icon)
+    const icon = weather.weather[0].icon
+    const description = weather.weather[0].description
 
     return (
         <div>
-            <h2>Weather in {capital}</h2>
-            <p>Temperature: {weather.temp} °C</p>
-            <p>
+            <h2>Current weather in {capital}</h2>
+            <p>Temperature: <b>{weather.main.temp} °C</b></p>
+            <p style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
                 <img
-                    src={icon}
-                    alt={weather.weather.description}
-                    style={{ width: 100, height: 'auto', display: 'block', margin: '10px 0' }}
+                    src={`https://openweathermap.org/payload/api/media/file/${icon}.png`}
+                    alt={description}
+                    width="75" height="75"
                 />
+                <span>{description.charAt(0).toUpperCase() + description.slice(1)}</span>
             </p>
-            <p>Wind: {weather.wind} m/s</p>
+            <p>Wind: <b>{weather.wind.speed} m/s</b></p>
         </div>
     )
 }

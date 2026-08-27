@@ -1,22 +1,18 @@
 import {useEffect, useState} from "react";
-import countryService from '../services/countries'
 import weatherService from '../services/weather'
 import Weather from './Weather'
 
 const Single = ({ country }) => {
-    const [weather, setWeather] = useState([]);
-
-    countryService
-        .getSingle(country.name.common)
-        .then(response => {
-            console.log(response)
-        })
+    const [weather, setWeather] = useState({});
+    const [showWeather, setshowWeather] = useState(false);
 
     useEffect(() => {
         weatherService
             .getWeather(country)
             .then(response => {
-                setWeather(response[0]) // Weather object inside data
+                // console.log(response)
+                setWeather(response) // Weather object inside data
+                setshowWeather(true)
             })
             .catch(error => {
                 console.log(error)
@@ -40,15 +36,15 @@ const Single = ({ country }) => {
                 })}
             </ul>
 
-            <div style={{ marginTop: '30px' }}>
+            <div style={{ marginTop: 30 }}>
                 <img
                     src={country.flags.svg}
                     alt={`${country.name.common} flag`}
-                    style={{ width: '200px', height: 'auto' }}
+                    style={{ width: 150, height: 'auto' }}
                 />
             </div>
 
-            { weather.length > 0 && <Weather capital={country.capital[0]} weather={weather} /> }
+            { showWeather && <Weather capital={country.capital[0]} weather={weather} /> }
         </div>
     )
 }
