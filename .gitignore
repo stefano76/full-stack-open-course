@@ -1,3 +1,5 @@
 .DS_Store
-.history/
+.history
 .idea
+part3/notes-backend/node_modules
+part3/phonebook-backend/node_modules
