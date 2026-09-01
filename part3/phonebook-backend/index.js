@@ -2,7 +2,6 @@ const express = require('express')
 const morgan = require('morgan')
 
 const app = express()
-// morgan('tiny')
 
 app.use(express.json())
 app.use(morgan('tiny'))
@@ -80,6 +79,12 @@ app.post('/api/persons', (request, response) => {
         })
     }
 
+    morgan.token('body', function (req, res) {
+        return JSON.stringify(req.body)
+    })
+
+    console.log(morgan.body(request, response))
+
     const person = {
         id: generateId(),
         name: body.name,
@@ -94,4 +99,4 @@ app.post('/api/persons', (request, response) => {
 const generateId = () => Math.floor(Math.random() * 10000000)
 
 const PORT = 3001
-app.listen(PORT, () => console.log(`Server started on port ${PORT}`))
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`))
