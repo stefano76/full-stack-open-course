@@ -1,7 +1,11 @@
 const express = require('express')
+const cors = require('cors')
+
 const app = express()
 
 app.use(express.json())
+app.use(express.static('dist'))
+app.use(cors())
 
 // Middlewares
 const requestLoggr = (request, response, next) => {
@@ -22,7 +26,7 @@ const unknownEndpoint = (request, response) => {
 let notes = [
     {
         id: "1",
-        content: "HTML is easy",
+        content: "HTML is easy, right?",
         important: true
     },
     {
@@ -93,5 +97,5 @@ app.post('/api/notes', (request, response) => {
 
 app.use(unknownEndpoint)
 
-const PORT = 3001
+const PORT = process.env.PORT || 3001
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`))
