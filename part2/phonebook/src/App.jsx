@@ -17,6 +17,7 @@ const App = () => {
         personService
             .getAll()
             .then(initialPersons => {
+                // console.log(initialPersons)
                 setPersons(initialPersons)
             })
     }, [])
@@ -65,10 +66,10 @@ const App = () => {
         if ( window.confirm(`Are you sure you want to delete ${personName}?`) ) {
             personService
                 .destroy(id)
-                .then(returnedPerson => {
-                    setNotification(`${returnedPerson.name} has been removed from server`)
+                .then(() => {
+                    setNotification(`${personName} has been removed from server`)
                     setTimeout(() => setNotification(null),5000)
-                    setPersons(persons.filter(person => person.id !== returnedPerson.id))
+                    setPersons(persons.filter(person => person.id !== id))
                 })
         }
     }
