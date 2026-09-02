@@ -95,6 +95,15 @@ app.post('/api/notes', (request, response) => {
     response.json(note)
 })
 
+app.put('/api/notes/:id', (request, response) => {
+    const id = request.params.id
+    const note = notes.find((n) => n.id === id)
+
+    note.important = !note.important
+
+    response.json(note)
+})
+
 app.use(unknownEndpoint)
 
 const PORT = process.env.PORT || 3001
