@@ -9,11 +9,8 @@ app.use(express.json())
 app.use(express.static('dist'))
 app.use(morgan('tiny'))
 
-let people = []
-
 app.get('/api/persons', (request, response) => {
     Person.find({}).then((persons) => {
-        people = persons
         response.json(persons)
     })
 })
@@ -49,9 +46,9 @@ app.post('/api/persons', (request, response) => {
         return response.status(400).json({ error: 'Number is required' })
     }
 
-    if ( people.find(p => p.name === body.name) ) {
+    /*if ( persons.find(p => p.name === body.name) ) {
         return response.status(400).json({ error: 'Name must be unique' })
-    }
+    }*/
 
     morgan.token('body', function (req, res) {
         return JSON.stringify(req.body)
@@ -63,6 +60,7 @@ app.post('/api/persons', (request, response) => {
     })
 
     person.save().then((savedPerson) => {
+        console.log(savedPerson)
         response.json(savedPerson)
     })
 
