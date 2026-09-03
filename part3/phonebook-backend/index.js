@@ -1,5 +1,7 @@
+require('dotenv').config()
 const express = require('express')
 const morgan = require('morgan')
+const Person = require('./models/person')
 
 const app = express()
 
@@ -7,31 +9,13 @@ app.use(express.json())
 app.use(express.static('dist'))
 app.use(morgan('tiny'))
 
-let persons = [
-    {
-        "id": "1",
-        "name": "Arto Matthias Hellas",
-        "number": "040-123456"
-    },
-    {
-        "id": "2",
-        "name": "Ada Lovelace",
-        "number": "39-44-5323523"
-    },
-    {
-        "id": "3",
-        "name": "Dan Abramov",
-        "number": "12-43-234345"
-    },
-    {
-        "id": "4",
-        "name": "Mary Poppendieck",
-        "number": "39-23-6423122"
-    }
-]
+let people = []
 
 app.get('/api/persons', (request, response) => {
-    response.json(persons)
+    Person.find({}).then((persons) => {
+        people = persons
+        response.json(persons)
+    })
 })
 
 app.get('/info', (request, response) => {
@@ -42,14 +26,9 @@ app.get('/info', (request, response) => {
 })
 
 app.get('/api/persons/:id', (request, response) => {
-    const id = request.params.id;
-    const person = persons.find(p => p.id === id)
-
-    if (person) {
+    Person.findById(request.params.id).then((person) => {
         response.json(person)
-    } else {
-        response.status(404).end()
-    }
+    })
 })
 
 app.delete('/api/persons/:id', (request, response) => {
@@ -63,38 +42,30 @@ app.post('/api/persons', (request, response) => {
     const body = request.body;
 
     if (!body.name) {
-        return response.status(400).json({
-            error: 'Name is required'
-        })
+        return response.status(400).json({ error: 'Name is required' })
     }
 
     if (!body.number) {
-        return response.status(400).json({
-            error: 'Number is required'
-        })
+        return response.status(400).json({ error: 'Number is required' })
     }
 
-    if ( persons.find(p => p.name === body.name) ) {
-        return response.status(400).json({
-            error: 'Name must be unique'
-        })
+    if ( people.find(p => p.name === body.name) ) {
+        return response.status(400).json({ error: 'Name must be unique' })
     }
 
     morgan.token('body', function (req, res) {
         return JSON.stringify(req.body)
     })
 
-    // console.log(morgan.body(request, response))
-
-    const person = {
-        id: generateId(),
+    const person = new Person({
         name: body.name,
         number: body.number
-    }
+    })
 
-    persons = persons.concat(person)
+    person.save().then((savedPerson) => {
+        response.json(savedPerson)
+    })
 
-    response.json(person)
 })
 
 const generateId = () => String(Math.floor(Math.random() * 10000000))
