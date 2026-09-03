@@ -15,13 +15,6 @@ app.get('/api/persons', (request, response) => {
     })
 })
 
-app.get('/info', (request, response) => {
-    const datetime = new Date();
-    let output = `<p>Phonebook has info for ${persons.length} people</p>`;
-    output += `<p>${datetime}</p>`
-    response.send(output)
-})
-
 app.get('/api/persons/:id', (request, response, next) => {
     Person.findById(request.params.id)
         .then(person => {
@@ -86,7 +79,6 @@ const errorHandler = (error, request, response, next) => {
 
     next(error)
 }
-// this has to be the last loaded middleware, also all the routes should be registered before this!
 app.use(errorHandler)
 
 const PORT = process.env.PORT
