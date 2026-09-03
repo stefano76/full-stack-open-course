@@ -9,6 +9,16 @@ app.use(express.static('dist'))
 app.use(express.json())
 app.use(morgan('tiny'))
 
+app.get('/info', (request, response) => {
+    const datetime = new Date();
+
+    Person.find({}).then((persons) => {
+        let output = `<p>Phonebook has info for ${persons.length} people</p>`;
+        output += `<p>${datetime}</p>`
+        response.send(output)
+    })
+})
+
 app.get('/api/persons', (request, response) => {
     Person.find({}).then((persons) => {
         response.json(persons)
