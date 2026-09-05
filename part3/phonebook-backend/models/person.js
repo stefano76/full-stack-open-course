@@ -19,7 +19,17 @@ const personSchema = new mongoose.Schema({
         required: true,
         minlength: 3,
     },
-    number: String
+    number: {
+        type: String,
+        required: true,
+        minlength: 8,
+        validate: {
+            validator: function (value) {
+                return /^\d{2,3}-\d+$/.test(value)
+            },
+            message: props => `Number ${props.value}. It must be a number with format XXX-XXXXXXXXX and the prefix must be 2-3 characters long.`
+        }
+    }
 })
 
 personSchema.set('toJSON', {
