@@ -55,6 +55,10 @@ const App = () => {
                     setTimeout(() => setNotification(null), 5000)
                     setPersons(persons.concat(returnedPerson))
                 })
+                .catch(error => {
+                    console.log(error.response.data)
+                    setNotification(error.response.data.error)
+                })
         }
 
         setNewName('')
