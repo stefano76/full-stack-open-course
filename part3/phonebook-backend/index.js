@@ -10,10 +10,10 @@ app.use(express.json())
 app.use(morgan('tiny'))
 
 app.get('/info', (request, response) => {
-    const datetime = new Date();
+    const datetime = new Date()
 
     Person.find({}).then((persons) => {
-        let output = `<p>Phonebook has info for ${persons.length} people</p>`;
+        let output = `<p>Phonebook has info for ${persons.length} people</p>`
         output += `<p>${datetime}</p>`
         response.send(output)
     })
@@ -39,14 +39,14 @@ app.get('/api/persons/:id', (request, response, next) => {
 
 app.delete('/api/persons/:id', (request, response, next) => {
     Person.findByIdAndDelete(request.params.id)
-        .then(result => {
+        .then(() => {
             response.status(204).end()
         })
         .catch(error => next(error))
 })
 
 app.post('/api/persons', (request, response, next) => {
-    const body = request.body;
+    const body = request.body
 
     if (!body.name) {
         return response.status(400).json({ error: 'Name is required' })
@@ -60,7 +60,7 @@ app.post('/api/persons', (request, response, next) => {
         return response.status(400).json({ error: 'Name must be unique' })
     }*/
 
-    morgan.token('body', function (req, res) {
+    morgan.token('body', function (req) {
         return JSON.stringify(req.body)
     })
 

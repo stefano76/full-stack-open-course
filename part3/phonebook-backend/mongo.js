@@ -28,15 +28,15 @@ if ( process.argv[3] && process.argv[4] ) {
         number: newNumber
     })
 
-    number.save().then(result => {
+    number.save().then(() => {
         console.log(`Added ${newName} with number ${newNumber} to phonebook`)
         mongoose.connection.close()
     })
 } else {
     Number.find({}).then(result => {
-        console.log("Phonebook:")
+        console.log('Phonebook:')
         result.forEach(person => {
-            console.log(person.name + " " + person.number)
+            console.log(person.name + ' ' + person.number)
         })
         mongoose.connection.close()
     })
