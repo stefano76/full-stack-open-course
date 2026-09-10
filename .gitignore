@@ -1,7 +1,6 @@
 .DS_Store
 .history
 .idea
-part3/notes-backend/node_modules
-part3/phonebook-backend/node_modules
+**/node_modules
 part3/phonebook-backend/logs
 **/.env
