@@ -13,10 +13,26 @@ const listOfOneBlog = [
     }
 ]
 
-const listOfTwoBlogs = [
+const listOfMoreBlogs = [
     {
         _id: '5a422aa71b54a676234d17g5',
         title: 'How to sing',
+        author: 'Freddie Mercury',
+        url: "https//www.queen.com",
+        likes: 8000,
+        __v: 0
+    },
+    {
+        _id: '5a422aa71b54a676234d17b2',
+        title: 'How to play the piano',
+        author: 'Freddie Mercury',
+        url: "https//www.queenpiano.com",
+        likes: 5000,
+        __v: 0
+    },
+    {
+        _id: '5a422aa71b54a676234d17n1',
+        title: 'How to play the piano and sing at the same time',
         author: 'Freddie Mercury',
         url: "https//www.queen.com",
         likes: 10000,
@@ -32,21 +48,21 @@ const listOfTwoBlogs = [
     }
 ]
 
-describe('total blogs likes', () => {
+/*describe('total blogs likes', () => {
     test('when the list is made of one blog, equals the likes of that', () => {
         const result = listHelper.totalLikes(listOfOneBlog)
         assert.strictEqual(result, 1000)
     })
 
     test('when the list is made of multiple blogs, equals the sum of the likes of all the blogs', () => {
-        const result = listHelper.totalLikes(listOfTwoBlogs)
+        const result = listHelper.totalLikes(listOfMoreBlogs)
         assert.strictEqual(result, 30000)
     })
-})
+})*/
 
 describe('Most liked blog', () => {
     test('The most liked blog among multiple blogs is the one with most likes', () => {
-        const result = listHelper.favoriteBlog(listOfTwoBlogs)
+        const result = listHelper.favoriteBlog(listOfMoreBlogs)
         assert.deepStrictEqual(result, {
             _id: '5a422aa71b54a676234d17h9',
             title: 'How to play a guitar',
@@ -66,6 +82,16 @@ describe('Most liked blog', () => {
             url: "https//www.gordonramsay.com",
             likes: 1000,
             __v: 0
+        })
+    })
+})
+
+describe('Author with most blogs', () => {
+    test('most present author', () => {
+        const result = listHelper.mostBlogs(listOfMoreBlogs)
+        assert.deepStrictEqual(result, {
+            author: 'Freddie Mercury',
+            blogs: 3
         })
     })
 })

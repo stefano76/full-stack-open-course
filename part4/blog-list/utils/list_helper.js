@@ -1,4 +1,6 @@
-const {init} = require("express/lib/application");
+const {init} = require("express/lib/application")
+const _ = require('lodash')
+
 const dummy = (blogs) => {
     return 1
 }
@@ -17,4 +19,14 @@ const favoriteBlog = (blogs) => {
     }, initialBlog)
 }
 
-module.exports = { dummy, totalLikes, favoriteBlog }
+const mostBlogs = (blogs) => {
+    const countBlogsAuthor = _.countBy(blogs, 'author')
+    const mostFrequentAuthor = _.maxBy(Object.keys(countBlogsAuthor), (author) => countBlogsAuthor[author])
+
+    return {
+        author: mostFrequentAuthor,
+        blogs: countBlogsAuthor[mostFrequentAuthor]
+    }
+}
+
+module.exports = { dummy, totalLikes, favoriteBlog, mostBlogs }
