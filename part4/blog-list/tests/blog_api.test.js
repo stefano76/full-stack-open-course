@@ -9,20 +9,18 @@ const api = supertest(app)
 
 const initialBlogs = [
     {
-        _id: '6aa5b77d461aee79de94edaa',
+        id: '6aa5b77d461aee79de94edaa',
         title: 'How to sing',
         author: 'Freddie Mercury',
         url: "https//www.queen.com",
         likes: 8000,
-        __v: 0
     },
     {
-        _id: '6aa5b7898f1145b782fd3379',
+        id: '6aa5b7898f1145b782fd3379',
         title: 'How to play the guitar',
         author: 'Jimi Hendrix',
-        url: "https//www.experience.com",
+        url: "https//www.jmexperience.com",
         likes: 20000,
-        __v: 0
     }
 ]
 
@@ -38,6 +36,12 @@ test('blogs are returned as json', async () => {
         .expect('Content-Type', /application\/json/)
 
     assert.strictEqual(response.body.length, initialBlogs.length)
+})
+
+test('blogs identifiers are named "id"', async () => {
+    const response = await api.get('/api/blogs')
+    const ids = response.body.map(blog => blog.id)
+    assert.notDeepStrictEqual(ids, [undefined, undefined])
 })
 
 after(async () => {
