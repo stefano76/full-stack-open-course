@@ -61,7 +61,36 @@ test('a valid blog can be added', async () => {
     const blogsAtEnd = await Blog.find({})
     assert.strictEqual(blogsAtEnd.length, initialBlogs.length + 1)
     // const { id, ...responseClean } = response.body
+    // assert.strictEqual(response.body.likes, 0)
+})
+
+test('a blog without likes has 0 likes', async () => {
+    const newBlog = {
+        title: 'How to play the bass',
+        author: 'Jaco Pastorius',
+        url: "https//www.jaco.com",
+    }
+
+    const response = await api
+        .post('/api/blogs')
+        .send(newBlog)
+        .expect(201)
+        .expect('Content-Type', /application\/json/)
+
     assert.strictEqual(response.body.likes, 0)
+})
+
+test('a blog without title or url returns Bad request', async () => {
+    const newBlog = {
+        // title: 'How to play the bass',
+        author: 'Jaco Pastorius',
+        // url: "https//www.jaco.com",
+    }
+
+    const response = await api
+        .post('/api/blogs')
+        .send(newBlog)
+        .expect(400)
 })
 
 after(async () => {
