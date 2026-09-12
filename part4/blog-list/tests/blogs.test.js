@@ -95,3 +95,13 @@ describe('Author with most blogs', () => {
         })
     })
 })
+
+describe('Author with most likes', () => {
+    test('most liked author', () => {
+        const result = listHelper.mostLikes(listOfMoreBlogs)
+        assert.deepStrictEqual(result, {
+            author: 'Jimi Hendrix',
+            likes: 20000
+        })
+    })
+})
