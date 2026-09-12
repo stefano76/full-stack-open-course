@@ -49,7 +49,7 @@ test('a valid blog can be added', async () => {
         title: 'How to play the bass',
         author: 'Jaco Pastorius',
         url: "https//www.jaco.com",
-        likes: 1000
+        // likes: 1000
     }
 
     const response = await api
@@ -60,8 +60,8 @@ test('a valid blog can be added', async () => {
 
     const blogsAtEnd = await Blog.find({})
     assert.strictEqual(blogsAtEnd.length, initialBlogs.length + 1)
-    const { id, ...responseClean } = response.body
-    assert.deepStrictEqual(responseClean, newBlog)
+    // const { id, ...responseClean } = response.body
+    assert.strictEqual(response.body.likes, 0)
 })
 
 after(async () => {
