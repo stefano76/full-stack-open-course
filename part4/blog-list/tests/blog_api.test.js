@@ -44,6 +44,26 @@ test('blogs identifiers are named "id"', async () => {
     assert.notDeepStrictEqual(ids, [undefined, undefined])
 })
 
+test('a valid blog can be added', async () => {
+    const newBlog = {
+        title: 'How to play the bass',
+        author: 'Jaco Pastorius',
+        url: "https//www.jaco.com",
+        likes: 1000
+    }
+
+    const response = await api
+        .post('/api/blogs')
+        .send(newBlog)
+        .expect(201)
+        .expect('Content-Type', /application\/json/)
+
+    const blogsAtEnd = await Blog.find({})
+    assert.strictEqual(blogsAtEnd.length, initialBlogs.length + 1)
+    const { id, ...responseClean } = response.body
+    assert.deepStrictEqual(responseClean, newBlog)
+})
+
 after(async () => {
     await mongoose.connection.close()
 })
