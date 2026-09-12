@@ -1,3 +1,4 @@
+const {init} = require("express/lib/application");
 const dummy = (blogs) => {
     return 1
 }
@@ -8,4 +9,12 @@ const totalLikes = (blogs) => {
     }, 0)
 }
 
-module.exports = { dummy, totalLikes }
+const favoriteBlog = (blogs) => {
+    const initialBlog = {likes: 0}
+
+    return blogs.reduce((mostLiked, blog) => {
+        return mostLiked.likes > blog.likes ? mostLiked : blog
+    }, initialBlog)
+}
+
+module.exports = { dummy, totalLikes, favoriteBlog }
