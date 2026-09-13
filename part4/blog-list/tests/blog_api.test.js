@@ -93,6 +93,21 @@ test('a blog without title or url returns Bad request', async () => {
         .expect(400)
 })
 
+test('a blog can be deleted', async () => {
+    const blogsAtStart = await Blog.find({})
+    const blogToDelete = blogsAtStart[0]
+
+    await api
+        .delete(`/api/blogs/${blogToDelete.id}`)
+        .expect(204)
+
+    const blogsAtEnd = await Blog.find({})
+    const ids = blogsAtEnd.map(blog => blog.id)
+
+    assert.strictEqual(blogsAtEnd.length, initialBlogs.length - 1)
+    assert(!ids.includes(blogToDelete.id))
+})
+
 after(async () => {
     await mongoose.connection.close()
 })
