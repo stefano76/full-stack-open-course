@@ -4,6 +4,7 @@ const mongoose = require('mongoose')
 const supertest = require('supertest')
 const app = require('../app')
 const Blog = require('../models/blog')
+const {response} = require("express");
 
 const api = supertest(app)
 
@@ -106,6 +107,21 @@ test('a blog can be deleted', async () => {
 
     assert.strictEqual(blogsAtEnd.length, initialBlogs.length - 1)
     assert(!ids.includes(blogToDelete.id))
+})
+
+test('a blog can be updated', async () => {
+    const blogs = await Blog.find({})
+    const blogToUpdate = blogs[0]
+
+    blogToUpdate.likes = 50000
+
+    await api
+        .put(`/api/blogs/${blogToUpdate.id}`)
+        .send(blogToUpdate)
+        .expect(200)
+        .expect('Content-Type', /application\/json/)
+
+    assert.notStrictEqual(blogToUpdate.likes, initialBlogs[0].likes)
 })
 
 after(async () => {
