@@ -46,7 +46,7 @@ const tokenExtractor = (request, response, next) => {
 }
 
 const userExtractor = async (request, response, next) => {
-    // if (request.url !== '/' || request.method !== 'GET') {
+    if (request.url !== '/' || request.method !== 'GET') {
         const decodedToken = jwt.verify(request.token, process.env.SECRET)
         if (!decodedToken) {
             return response.status(401).json({ error: 'token invalid' })
@@ -58,7 +58,7 @@ const userExtractor = async (request, response, next) => {
         }
 
         request.user = user
-    // }
+    }
 
     next()
 }

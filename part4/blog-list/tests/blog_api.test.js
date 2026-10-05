@@ -4,6 +4,8 @@ const mongoose = require('mongoose')
 const supertest = require('supertest')
 const app = require('../app')
 const Blog = require('../models/blog')
+const User = require('../models/user')
+const bcrypt = require("bcrypt");
 
 const api = supertest(app)
 
@@ -24,10 +26,41 @@ const initialBlogs = [
     }
 ]
 
+const userLogged = {
+    id: '6ac2def1a8114dceb208a260',
+    username: 'john',
+    name: 'John Doe',
+    password: '123456'
+}
+
+const addUser = async () => {
+    const user = new User({
+        username: 'john',
+        name: 'John Doe',
+        passwordHash: await bcrypt.hash("123456", 10)
+    })
+    await user.save()
+}
+
 beforeEach(async () => {
     await Blog.deleteMany()
+    await User.deleteMany()
+    await addUser()
+
+    const login = await api
+        .post('/api/login')
+        .send({
+            username: 'john',
+            password: '123456'
+        })
+        .expect(200)
+
+    token = login.body.token
+
     await Blog.insertMany(initialBlogs)
 })
+
+let token
 
 test('blogs are returned as json', async () => {
      const response = await api
@@ -54,6 +87,7 @@ test('a valid blog can be added', async () => {
 
     const response = await api
         .post('/api/blogs')
+        .set('Authorization', `Bearer ${token}`)
         .send(newBlog)
         .expect(201)
         .expect('Content-Type', /application\/json/)
@@ -73,6 +107,7 @@ test('a blog without likes has 0 likes', async () => {
 
     const response = await api
         .post('/api/blogs')
+        .set('Authorization', `Bearer ${token}`)
         .send(newBlog)
         .expect(201)
         .expect('Content-Type', /application\/json/)
@@ -89,8 +124,22 @@ test('a blog without title or url returns Bad request', async () => {
 
     const response = await api
         .post('/api/blogs')
+        .set('Authorization', `Bearer ${token}`)
         .send(newBlog)
         .expect(400)
+})
+
+test('a blog can’t be added if a token is not provided', async () => {
+    const newBlog = {
+        title: 'How to play the bass',
+        author: 'Jaco Pastorius',
+        url: "https//www.jaco.com",
+    }
+
+    const response = await api
+        .post('/api/blogs')
+        .send(newBlog)
+        .expect(401)
 })
 
 test('a blog can be deleted', async () => {
